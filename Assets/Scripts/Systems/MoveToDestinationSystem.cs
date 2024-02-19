@@ -20,13 +20,13 @@ public partial struct MoveEntitySystem : ISystem
 
     public void OnUpdate(ref SystemState state)
     {
-        foreach (var entity in SystemAPI.Query<RefRW<LocalTransform>, RefRO<EntityMove>>()) 
+        foreach (var entity in SystemAPI.Query<RefRW<LocalTransform>, RefRO<EntityMove>, RefRO<EntityMoveDestination>>()) 
         {
-            var dist = math.distance(entity.Item2.ValueRO.destination, entity.Item1.ValueRW.Position);
+            var dist = math.distance(entity.Item3.ValueRO.destination, entity.Item1.ValueRW.Position);
             if (dist < entity.Item2.ValueRO.moveSpeed)
                 return;
 
-            var diff = entity.Item2.ValueRO.destination - entity.Item1.ValueRW.Position;
+            var diff = entity.Item3.ValueRO.destination - entity.Item1.ValueRW.Position;
             var dir = math.normalize(diff);
             dir *= entity.Item2.ValueRO.moveSpeed * SystemAPI.Time.DeltaTime;
 

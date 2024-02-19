@@ -4,24 +4,22 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class EntityMoveBaker : MonoBehaviour
+public class EntityMoveAuthoring : MonoBehaviour
 {
     public float moveSpeed;
     public float moveSpeedMultiplier;
-    public Vector3 destination;
 
-    private class Baker : Baker<EntityMoveBaker>
+    private class Baker : Baker<EntityMoveAuthoring>
     {
-        public override void Bake(EntityMoveBaker authoring)
+        public override void Bake(EntityMoveAuthoring authoring)
         {
             var entity = GetEntity(TransformUsageFlags.Dynamic);
             if (entity != null)
             {
-                AddComponent(entity, new EntityMove {
-                
-                    moveSpeed = authoring.moveSpeed, 
-                    moveSpeedMultiplier = authoring.moveSpeedMultiplier, 
-                    destination = authoring.destination
+                AddComponent(entity, new EntityMove
+                {
+                    moveSpeed = authoring.moveSpeed,
+                    moveSpeedMultiplier = authoring.moveSpeedMultiplier
                 });
             }
         }
